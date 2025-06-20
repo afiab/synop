@@ -1,6 +1,8 @@
-// swiftsum-frontend/src/App.js
+// synop-frontend/src/App.js
 import React, { useState } from 'react';
-import './App.css'; // We'll add some basic CSS later
+import ReactMarkdown from 'react-markdown'; // <-- NEW IMPORT
+import remarkGfm from 'remark-gfm';       // <-- NEW IMPORT
+import './App.css';
 
 function App() {
   const [inputText, setInputText] = useState('');
@@ -9,12 +11,13 @@ function App() {
   const [error, setError] = useState('');
 
   const summarizeArticle = async () => {
-    setError(''); // Clear previous errors
-    setSummary(''); // Clear previous summary
+    setError('');
+    setSummary('');
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/summarize', { // Make sure this matches your backend port
+      // Ensure this matches your backend port (likely 5001)
+      const response = await fetch('http://localhost:5001/summarize', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,11 +27,12 @@ function App() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        // You might see the specific Gemini error here now
         throw new Error(errorData.error || 'Something went wrong on the server.');
       }
 
       const data = await response.json();
-      setSummary(data.summary);
+      setSummary(data.summary); // This `summary` should be your markdown string
     } catch (err) {
       console.error('Error fetching summary:', err);
       setError(err.message || 'Failed to get summary. Please try again.');
@@ -40,7 +44,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>SwiftSum: AI Article Summarizer</h1>
+        <h1><span class="sitename">Synop</span>: AI Article Summarizer</h1>
         <p>Paste an article URL or text below to get a quick summary.</p>
       </header>
 
@@ -61,7 +65,8 @@ function App() {
       {summary && (
         <div className="summary-section">
           <h2>Summary:</h2>
-          <p>{summary}</p>
+          {/* Use ReactMarkdown here to render the markdown content */}
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{summary}</ReactMarkdown> {/* <-- NEW USAGE */}
         </div>
       )}
 
