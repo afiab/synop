@@ -8,7 +8,7 @@ I made this because I've found some articles to be unnecessarily lengthy with fi
 The site is also mobile friendly, which is convinient if you're looking for a quick summary on your phone or on the go.
 
 ## Demo
-(to be added)
+![synop_demo](https://github.com/user-attachments/assets/b7dd0414-7767-4344-a1bd-7635f4736275)
 
 ## Tech Stack
 Frontend: Reactjs
